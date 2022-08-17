@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML Meta Tags -->
+    <title>Global electricity access</title>
+    <link rel="icon" type="image/x-icon" href="img/power-map.png">
+
+    <meta name="description" content="A map showing access to electricity across the world.">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://annerquaye.github.io/electricity-access/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Global electricity access">
+    <meta property="og:description" content="A map showing access to electricity across the world.">
+    <meta property="og:image" content="img/power-map.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="annerquaye.github.io">
+    <meta property="twitter:url" content="https://annerquaye.github.io/electricity-access/">
+    <meta name="twitter:title" content="Global electricity access">
+    <meta name="twitter:description" content="A map showing access to electricity across the world.">
+    <meta name="twitter:image" content="img/power-map.png">
+
+
+    <style>
+        #scrolly {
+            position: relative;
+            padding: 1rem;
+        }
+
+        .scrolly-overlay {
+            position: relative;
+            padding: 0;
+            max-width: 35rem;
+            margin: 0 auto;
+        }
+
+        .sticky-thing {
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            z-index: 0;
+            top: 0;
+            height: 100vh;
+            /* Center everything inside */
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .step {
+            margin: 0 auto 2rem auto;
+            margin-bottom: 25rem;
+            background-color: #eee;
+            background-color: #fff;
+            color: black;
+            opacity: .8;
+        }
+
+        .step p {
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
+
+        /* When it's less than 700 pixels wide, do normal scrollytelling */
+        @media only screen and (min-width: 700px) {
+            #scrolly.side-by-side {
+                display: flex;
+            }
+
+            #scrolly.side-by-side>div {
+                flex-basis: 0;
+                flex-grow: 1;
+                flex-shrink: 1;
+                padding: 0.75em;
+            }
+
+            #scrolly.side-by-side .scrolly-overlay {
+                margin-top: 70vh;
+                order: 0;
+                /* Change these to adjust sizing options */
+                min-width: 15rem;
+                max-width: 20rem;
+            }
+
+            #scrolly.side-by-side .sticky-thing {
+                order: 1;
+                flex-grow: 2;
+            }
+        }
+    </style>
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet" />
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Joan&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.0.4/scrollama.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js"></script>
+
+</head>
+
+<body>
+    <div class='body-wrapper'>
+        <img class="hero-image" src="images/mental_health.jpeg" />
+        <em>Image: Emerald Psychiatry</em>
+        <div class='text-on-image'>
+            <h1>Black youth mental health: A crisis of understanding of its causes needs swift resolution</h1>
+            <div class="byline">
+                <p>By Richard Annerquaye Abbey</p>
+                <p><em>August 2022</em></p>
+            </div>
+        </div>
+        <div class='story'>
+            <p>
+            <p><span class="myDropcap">R</span>emote learning, one of the unmistaken legacies of the pandemic, was
+                intended to create a healthy way for
+                students to continue to learn and connect with their teachers. For Jasmine, 16, taking remote classes
+                was a
+                matter of logging on to zoom and turning off her mic and camera.
+            </p>
+            <p>She took her lessons passively, resting her back against her bed’s headboard rather than at her study
+                desk
+                that
+                came with an ergonomic chair. She felt comfortable. But in her comfort, she found taking lessons with
+                undivided
+                focus laborious.
+            </p>
+            <p>Jasmine’s companion in those moments was her phone. She would occasionally text friends or check in on
+                them
+                on
+                social media. Doing that allowed her to momentarily snap out of her boredom.
+            </p>
+            <p>But what started as her inability to remain attentive in class turned into an academic struggle as she
+                fell
+                farther and farther behind. The lessons became difficult to follow. She would often not turn in
+                assignments.
+                When she did, she missed deadlines.
+            </p>
+            <p>Jasmine knew she was hurting deep inside. She knew she had the intellectual ability to do her school work
+                but
+                also knew that she was now way too far behind to catch up. She felt like she was drowning and wanted
+                help
+                just
+                to stay afloat.
+            </p>
+            <p>In the past, when lessons became hard to follow, her peers came to her rescue before things could get out
+                of
+                hand. The virtual classes meant her support system was not readily available. That just added to her
+                stress.
+            </p>
+            <p>The 16-year-old had grown completely disillusioned and no longer wanted anything to do with school. She
+                said
+                she
+                was not suicidal. Yet, occasionally, she imagined what the world without her would be like.
+            </p>
+            <p>Despite her inner turmoil, she maintained a façade of smiles and laughter. Nevertheless, every single
+                class
+                piled
+                on her worries. When she finally caught her parents’ attention, it wasn’t so much the plummeting grades
+                (she
+                never showed her parents) but her weight loss.
+            </p>
+            <p>Jasmine has always been a picky eater as a child. When she turned 15, the 11th grader stood just under 5
+                feet
+                and
+                barely 100 pounds, giving her a slender stature. She never noticed her unexpected weight loss as her
+                diet
+                remained relatively the same. Her mom has always lamented that she eats too little food for someone her
+                age.
+                Jasmine would often shrug off those concerns but this time, her parents, startled by the weight loss,
+                wanted
+                a
+                solution. Her mother took her to her pediatrician. Jasmine had noticed the change in her looks, too.
+                Some of
+                her
+                dresses did not fit as snugly as they used. They hung loosely.
+            </p>
+            <p>Jasmine’s pediatrician had known her since she was a baby. After several visits, the doctor could not
+                find
+                anything medically wrong but prescribed vitamin supplements to increase her appetite. Her skinny
+                physique
+                was
+                also beginning to weigh on her, especially as her doctor could not point out what was wrong. She thought
+                a
+                diagnosis would ease her rising anxiety and provide her with a route to recovery.
+            </p>
+            <p>The pediatrician checked in with Jasmine and her mother and was confident the vitamins would help her
+                appetite.
+                Jasmine wasn’t so sure. Still, she knew her parents were worried so figured she’d stick to them
+                religiously.
+            </p>
+            <p>Jasmine’s concerns about her health and academic issues had her mind racing in all directions. Her sleep
+                was
+                patchy. She yearned to understand what was happening to her body. She found no answers, only more
+                worries
+                which
+                exacerbated her academic struggles.
+            </p>
+            <p>The eleventh grader found short-lived comfort whenever she talked to her doctor, but she yearned for a
+                trained
+                ear, a therapist to help her makes sense of all that’s happened and tell her she was doing fine. She
+                knew
+                her
+                problems extended deeper than vitamins and food.
+            </p>
+            <p>One evening after her parents had finished dinner, she approached them. She told them she needed to speak
+                to
+                someone to help her with her emotional issues. Her parents were astounded. Sure, she wasn’t eating. And
+                of
+                course, she was bored with online school. Who wasn’t? But depressed? And needing a mental health expert?
+                “They said, you can talk to us, and I was like ‘no!’, Jasmine recounts. “I would rather talk to an
+                outside
+                person.</p>
+            <p>Her father, Robert, 45, is a leader in the local Presbyterian Church and insisted she open up to him
+                instead.
+                After all, they are her parents, and they have the right to know whatever struggles she might have.
+                “They lack understanding, thinking that they are in a better position to handle my stress.”
+            </p>
+            <p>Her parents’ response to her therapist request confirmed her fears. She found her parents judgmental and
+                believed
+                only a professional therapist would understand her.
+            </p>
+            <p>“If you cannot talk to me about it,” she recollects her dad saying, “there are other people in the family
+                you
+                could talk to.” That response, she says, set back the trust in the relationship she shared with her dad.
+            </p>
+            <p>Jasmine’s parents, staunch Christians, migrated to the U.S. more than two decades ago from Ghana. Her
+                father
+                is a
+                deacon in the Presbyterian Church of Ghana in Harlem, New York, with more than 200 congregants.
+            </p>
+            <p>As a deacon, Robert is a member of the committee that sees to the running of the church. He is one of the
+                music
+                directors in the church’s choir, a position which further made him one of the known faces within the
+                congregation. Mavis Tetteh, Jasmine’s mother, plays an active role in church too, helping run the
+                Women’s
+                Fellowship, one of the groups geared for women above age 40.
+            </p>
+            <p>Even before the pandemic struck, concerns were mounting about a growing mental health crisis among Black
+                people,
+                especially their youth. Reports of depression, anxiety, and children attempting suicide were rampant.
+                Then
+                Covid-19 hit, intensifying fears that the infectious disease pandemic would ramp up the other, less
+                easily
+                noticeable, epidemic.</p>
+
+            <p>Resolving the crisis would require a cocktail of solutions that extended beyond the
+                individual patient. Experts pointed to the lack of access to mental health care, its skyrocketing costs,
+                and
+                the
+                sheer isolation and systemic racism that too many young Black people feel. To tackle what many see as an
+                impossible and complex issue, last February, the New York Senate established a task force to explore
+                ways to
+                improve mental health and prevent suicide in Black residents between the ages of 5 to 18 years.
+            </p>
+            <p>The task force was a response to mounting data. Experts found the virus disproportionately impacted Black
+                people
+                and increased pressure on legislators to act. One North Carolina study, for instance, found that while
+                Black
+                people made up about 20 percent of the population, they represented upwards of 35 percent of Covid cases
+                there.
+                Other studies echoed the findings. On top of the physical health crisis, the Black community was
+                suffering
+                emotionally.
+            </p>
+            <p>The senate’s task force was also influenced by a Centers for Disease Control study by researchers at New
+                York
+                University’s McSilver Institute for Poverty Policy and Research.
+                They gleaned results from a national school survey spanning 1991 to 2017 and found that while there has
+                been
+                an
+                overall decline or no change at all among suicides, there was an increased rate of suicide attempts
+                among
+                black
+                teens. Shockingly, black adolescents attempting to take their own lives rose by 73 percent.</p>
+            <p>The study, which analyzed the behaviors of 200,0000 adolescents, also found something strange:
+                Self-reported
+                suicide ideation, a key risk factor in suicide, was declining, yet more people attempted suicide than
+                before.
+                This seeming paradox means that more people are good at masking their suicidal thoughts yet just as
+                driven
+                to
+                harm themselves. Generally, suicide ideation provides early warning signals about suicide which may tell
+                where
+                prevention efforts are needed.
+                However, the study showed that these signals were hidden, a situation that may thwart suicide prevention
+                programs.</p>
+
+
+            <!-- Generated by ai2html v0.115.1 - 2022-08-17 13:06 -->
+            <!-- ai file: Pop distribution.svg -->
+            <style media="screen,print">
+                #g-Pop-distribution_svg-box,
+                #g-Pop-distribution_svg-box .g-artboard {
+                    margin: 0 auto;
+                }
+
+                #g-Pop-distribution_svg-box p {
+                    margin: 0;
+                }
+
+                #g-Pop-distribution_svg-box .g-aiAbs {
+                    position: absolute;
+                }
+
+                #g-Pop-distribution_svg-box .g-aiImg {
+                    position: absolute;
+                    top: 0;
+                    display: block;
+                    width: 100% !important;
+                }
+
+                #g-Pop-distribution_svg-box .g-aiSymbol {
+                    position: absolute;
+                    box-sizing: border-box;
+                }
+
+                #g-Pop-distribution_svg-box .g-aiPointText p {
+                    white-space: nowrap;
+                }
+
+                #g-Pop-distribution_svg-Desktop {
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                #g-Pop-distribution_svg-Desktop p {
+                    font-family: arial, helvetica, sans-serif;
+                    font-weight: bold;
+                    line-height: 22px;
+                    height: auto;
+                    opacity: 1;
+                    letter-spacing: 0em;
+                    font-size: 18px;
+                    text-align: left;
+                    color: rgb(0, 0, 0);
+                    text-transform: none;
+                    padding-bottom: 0;
+                    padding-top: 0;
+                    mix-blend-mode: normal;
+                    font-style: normal;
+                    position: static;
+                }
+
+                #g-Pop-distribution_svg-Desktop .g-pstyle0 {
+                    height: 22px;
+                }
+
+                #g-Pop-distribution_svg-Desktop .g-pstyle1 {
+                    font-style: italic;
+                    line-height: 14px;
+                    height: 14px;
+                    font-size: 12px;
+                }
+
+                #g-Pop-distribution_svg-Mobile {
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                #g-Pop-distribution_svg-Mobile p {
+                    font-family: arial, helvetica, sans-serif;
+                    font-weight: bold;
+                    line-height: 22px;
+                    height: auto;
+                    opacity: 1;
+                    letter-spacing: 0em;
+                    font-size: 18px;
+                    text-align: left;
+                    color: rgb(0, 0, 0);
+                    text-transform: none;
+                    padding-bottom: 0;
+                    padding-top: 0;
+                    mix-blend-mode: normal;
+                    font-style: normal;
+                    position: static;
+                }
+
+                #g-Pop-distribution_svg-Mobile .g-pstyle0 {
+                    height: 22px;
+                }
+
+                #g-Pop-distribution_svg-Mobile .g-pstyle1 {
+                    font-style: italic;
+                    line-height: 16px;
+                    height: 16px;
+                    font-size: 14px;
+                }
+            </style>
+
+            <div id="g-Pop-distribution_svg-box" class="ai2html">
+
+                <!-- Artboard: Desktop -->
+                <div id="g-Pop-distribution_svg-Desktop" class="g-artboard" style="width:805px; height:660px;"
+                    data-aspect-ratio="1.22" data-min-width="805">
+                    <div style=""></div>
+                    <img id="g-Pop-distribution_svg-Desktop-img" class="g-Pop-distribution_svg-Desktop-img g-aiImg"
+                        alt="" src="Pop-distribution_svg-Desktop.png" />
+                    <div id="g-ai0-1" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:4.4105%;margin-top:-13.1px;left:6.0432%;width:682px;">
+                        <p class="g-pstyle0">New York&rsquo;s Black population accounts for more than15 percent of the
+                            state&rsquo;s </p>
+                    </div>
+                    <div id="g-ai0-2" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:7.7438%;margin-top:-13.1px;left:6.0432%;width:429px;">
+                        <p class="g-pstyle0">total population, the second largest after White </p>
+                    </div>
+                    <div id="g-ai0-3" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:13.4993%;margin-top:-8.1px;left:4.5021%;width:157px;">
+                        <p class="g-pstyle1">White alone (12,078,949)</p>
+                    </div>
+                    <div id="g-ai0-4" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:13.4993%;margin-top:-8.1px;left:67.5173%;width:192px;">
+                        <p class="g-pstyle1">Black or African American alone</p>
+                    </div>
+                    <div id="g-ai0-5" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:15.6206%;margin-top:-8.1px;left:67.5173%;width:83px;">
+                        <p class="g-pstyle1">(3,000,253)</p>
+                    </div>
+                    <div id="g-ai0-6" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:73.6509%;margin-top:-8.1px;left:67.4743%;width:150px;">
+                        <p class="g-pstyle1">Asian alone (1,673,629)</p>
+                    </div>
+                    <div id="g-ai0-7" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:95.9236%;margin-top:-8.1px;left:67.5173%;width:205px;">
+                        <p class="g-pstyle1">Some other race alone(1,669,970)</p>
+                    </div>
+                </div>
+
+                <!-- Artboard: Mobile -->
+                <div id="g-Pop-distribution_svg-Mobile" class="g-artboard" style="max-width: 691px;max-height: 976px"
+                    data-aspect-ratio="0.708" data-min-width="0" data-max-width="804">
+                    <div style="padding: 0 0 141.3129% 0;"></div>
+                    <img id="g-Pop-distribution_svg-Mobile-img" class="g-Pop-distribution_svg-Mobile-img g-aiImg" alt=""
+                        src="Pop-distribution_svg-Mobile.png" />
+                    <div id="g-ai1-1" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:2.8787%;margin-top:-13.1px;left:2.3058%;width:682px;">
+                        <p class="g-pstyle0">New York&rsquo;s Black population accounts for more than15 percent of the
+                            state&rsquo;s </p>
+                    </div>
+                    <div id="g-ai1-2" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:5.1317%;margin-top:-13.1px;left:2.3058%;width:429px;">
+                        <p class="g-pstyle0">total population, the second largest after White </p>
+                    </div>
+                    <div id="g-ai1-3" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:9.0252%;margin-top:-9.1px;left:4.413%;width:217px;">
+                        <p class="g-pstyle1">Black or African American alone</p>
+                    </div>
+                    <div id="g-ai1-4" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:9.8698%;margin-top:-17.4px;left:73.9475%;width:161px;">
+                        <p class="g-pstyle1">Some other race alone</p>
+                        <p class="g-pstyle1">(1,669,970)</p>
+                    </div>
+                    <div id="g-ai1-5" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:9.0252%;margin-top:-9.1px;left:47.0238%;width:168px;">
+                        <p class="g-pstyle1">Asian alone (1,673,629)</p>
+                    </div>
+                    <div id="g-ai1-6" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:10.7661%;margin-top:-9.1px;left:4.413%;width:92px;">
+                        <p class="g-pstyle1">(3,000,253)</p>
+                    </div>
+                    <div id="g-ai1-7" class="g-Layer_1 g-aiAbs g-aiPointText"
+                        style="top:40.9769%;margin-top:-9.1px;left:4.1645%;width:176px;">
+                        <p class="g-pstyle1">White alone (12,078,949)</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- End ai2html - 2022-08-17 13:06 -->
+
+            <p>New York University investigators, based on their findings, demanded a further probe into the rise in
+                suicide
+                and
+                suicide attempts among Black adolescents.
+                Time will tell whether the probe and task force is lip service or a step forward to save the children.
+                The
+                seven-member task force has a two-year mandate to explore ways to improve mental health and suicide
+                prevention
+                in a state where one in five African Americans is between ages 10 and 24, according to the latest
+                American
+                Community Survey (2016-2020) and CDC data (2010-2019) shows that suicide has remained a leading cause of
+                deaths
+                among adolescents.
+            </p>
+
+            <p>While there are several underlying factors behind rising suicide rates among Black youth, the stigma
+                surrounding
+                mental health and barriers Black people face in accessing treatment are commonly cited.
+            </p>
+            <div id='map'>
+            </div>
+            <p>However, an analysis of the locations of the New York State Office of Mental Health facilities providing
+                services
+                to adolescents shows that they are typically located within a 30-minute drive of where African Americans
+                or
+                Blacks live.
+
+            <p>In fact, these facilities, which run various programs mental health programs, are within a
+                30-minute drive of almost everyone, irrespective of race, throughout the state. This finding would
+                perplex
+                those
+                who believe these facilities are often sited in locations that disadvantage specifically African
+                Americans,
+                This analysis arrived at this conclusion by mapping the physical locations of facilities in the state
+                alongside
+                the racial distribution of the population to determine whether it will take anyone driving from their
+                home
+                to
+                the nearest facility more than 30 minutes.</p>
+
+            <p>Some of these facilities also provide telehealth services which
+                further enhance their reach. While this analysis showed an extensive geographic coverage of adolescent
+                mental
+                health services, determining whether these facilities are within a 15-minute drive would probably yield
+                different results.
+            </p>
+
+            <p> That notwithstanding, there appears to be a disproportionate number of Black kids seeking treatment for
+                several
+                mental health illnesses, data from the New York State Office of Mental Health has shown. In 2019, census
+                data
+                revealed that one in five youth (under age 20) were African American. Yet, one-third of the state’s
+                under 20
+                population was Black youth using Medicaid to access intensive behavioral health services for children,
+                meaning a
+                more significant proportion of the Black kids' population is seeking mental health-related services.
+            </p>
+            <p>Comparatively, despite making up 70 percent of the state’s under-20 population, white kids made up 40
+                percent
+                of
+                all kids who used Medicaid to access children's intensive behavioral services. Either they weren’t
+                seeking
+                help
+                or had the money to pay for care.
+            </p>
+            <p>There are limits to the data: While there is a noticeable difference in the utilization of children's
+                mental
+                health care services by race, it is worth noting that the Office of Mental Health data did not
+                distinguish
+                between race and ethnicity. For instance, the census treats Hispanics as an ethnicity while the state
+                mental
+                health office treats it as a race.
+            </p>
+
+            <p>Mental health and adversity
+            </p>
+            <p>As attention turns to the unfolding mental health crisis among African American populations, researchers
+                are
+                keen
+                to unravel the mystery. Finding a lasting solution to the Black mental health crisis would first require
+                drilling into the factors at the heart of the issue.
+            </p>
+            <p>Myrna Weissman, who has spent the last 50 years teaching psychiatric epidemiology, which probes the
+                causes
+                and
+                consequences of psychiatric disorders, said the spike in African American suicide could be explained by
+                factors
+                such as lack of trust in the health system as well as adversity.
+                Since Black African Americans are disproportionately poor, they are mostly unable to afford mental
+                healthcare,
+                or it is not a priority. She also adds that because historically, Black patients believe they have not
+                been
+                treated fairly by the system, there is a lack of trust among black African Americans in the healthcare
+                system.
+            </p>
+            <p>Two years ago, Nakiya Melanie, a 23-year-old African American living in Brooklyn who has often battled
+                depression
+                and anxiety, could not get out of bed. The previous night she had celebrated her birthday with friends
+                at
+                her
+                home.
+            </p>
+            <p>It is almost routine for Melanie to have her friends come over for her birthday every year. It meant a
+                lot to
+                her. The seven days that followed her birthday night, she was stuck in bed with her depression and
+                anxiety
+                so
+                intense like she had never experienced before.
+                And when she decided with her boyfriend to seek medical help, the cost was one of the things they were
+                very
+                mindful of, in addition to getting a facility that was not too far from their home.
+            </p>
+            <p> “I didn't have any information on what this entails, and no one was giving me any insight,” Melanie
+                recollects.
+                “Even though I knew I needed help, I can't do that (sign up without considering the cost). The stress of
+                that
+                money will not help the situation either.”
+            </p>
+            <p>It took the couple nearly ten hours to find the ‘perfect’ facility at New York University. And when the
+                two
+                arrived at the hospital, Melanie was immediately rushed to the emergency ward of the psychiatric unit.
+                Doctors
+                diagnosed her with bipolar disorder. Dealing with severe depression and anxiety is not new to her, but
+                what
+                she
+                dealt with after her birthday felt different.
+                “People are likely to pay attention once you get suicidal,” says Melanie. “But the thing is, there’s
+                always
+                is a
+                buildup to that part. Unless they educate themselves, people don't understand your actions when you have
+                a
+                mental illness.”</p>
+            <p>Calibrating suicide detection tools</p>
+            <p>Donna Barnes, who teaches at the Howard University Department of Psychiatry, argues that the instruments
+                used
+                in
+                detecting suicide tendencies are not accurate in their prediction of suicide. “Many of the measurements
+                or
+                tools
+                used do not work for us [African Americans] because there have not been enough studies [due to lack of
+                funds] to
+                prove our procedures are evidence-based,” she says.
+            </p>
+            <div class='row-container'>
+                <div class='column-container'>
+                    <img src="images/HBCUAnnualFunding-02.png" width=100%>
+                </div>
+                <div class='column-container'>
+                    <img src="images/HBCUAnnualFunding-03.png" width=100%>
+                </div>
+            </div>
+            <p>Barnes believes that the National Institute of Mental Health, the federal agency that funds the bulk of
+                research
+                on mental disorders, would have to fund studies to help unravel the crisis unfolding.
+                To do that, she suggested one of the means would be to commit funds to research into mental disorders
+                being
+                undertaken by Historically Black Colleges and Universities, also known as HBCUs.
+            </p>
+
+            <p>In the last 30 years, only 20 of the listed 104HBCUs got funding to start their research. The bulk of the
+                funding
+                dollars, about 99 percent, have gone to traditional universities or institutions.
+                Of course, it is possible that research into issues confronting the Black community, including mental
+                health
+                issues, are undertaken at other institutions. To fully flesh out these findings, further data into the
+                kinds
+                of
+                studies, such as whether HBUC grants to study mental health, had been rejected.
+            </p>
+            <section id="scrolly">
+                <div class="sticky-thing">
+                    <div class="ai2html-container">
+
+                        <!-- ai2html goes below this line -->
+                        <!-- Generated by ai2html v0.115.1 - 2022-08-16 11:33 -->
+                        <!-- ai file: non-HBCU funding [Recovered].ai -->
+
+                        <!-- resizer script -->
+                        <script type="text/javascript">
+                            (function () {
+                                // only want one resizer on the page
+                                if (document.documentElement.className.indexOf("g-resizer-v3-init") > -1) return;
+                                document.documentElement.className += " g-resizer-v3-init";
+                                // require IE9+
+                                if (!("querySelector" in document)) return;
+                                function resizer() {
+                                    var elements = Array.prototype.slice.call(document.querySelectorAll(".g-artboard[data-min-width]")),
+                                        widthById = {};
+                                    elements.forEach(function (el) {
+                                        var parent = el.parentNode,
+                                            width = widthById[parent.id] || parent.getBoundingClientRect().width,
+                                            minwidth = el.getAttribute("data-min-width"),
+                                            maxwidth = el.getAttribute("data-max-width");
+                                        widthById[parent.id] = width;
+
+                                        if (+minwidth <= width && (+maxwidth >= width || maxwidth === null)) {
+                                            el.style.display = "block";
+                                        } else {
+                                            el.style.display = "none";
+                                        }
+                                    });
+                                    try {
+                                        if (window.parent && window.parent.$) {
+                                            window.parent.$("body").trigger("resizedcontent", [window]);
+                                        }
+                                        if (window.require) {
+                                            require(['foundation/main'], function () {
+                                                require(['shared/interactive/instances/app-communicator'], function (AppCommunicator) {
+                                                    AppCommunicator.triggerResize();
+                                                });
+                                            });
+                                        }
+                                    } catch (e) { console.log(e); }
+                                }
+
+                                document.addEventListener('DOMContentLoaded', resizer);
+                                // feel free to replace throttle with _.throttle, if available
+                                window.addEventListener('resize', throttle(resizer, 200));
+
+                                function throttle(func, wait) {
+                                    // from underscore.js
+                                    var _now = Date.now || function () { return new Date().getTime(); },
+                                        context, args, result, timeout = null, previous = 0;
+                                    var later = function () {
+                                        previous = _now();
+                                        timeout = null;
+                                        result = func.apply(context, args);
+                                        if (!timeout) context = args = null;
+                                    };
+                                    return function () {
+                                        var now = _now(), remaining = wait - (now - previous);
+                                        context = this;
+                                        args = arguments;
+                                        if (remaining <= 0 || remaining > wait) {
+                                            if (timeout) {
+                                                clearTimeout(timeout);
+                                                timeout = null;
+                                            }
+                                            previous = now;
+                                            result = func.apply(context, args);
+                                            if (!timeout) context = args = null;
+                                        } else if (!timeout && options.trailing !== false) {
+                                            timeout = setTimeout(later, remaining);
+                                        }
+                                        return result;
+                                    };
+                                }
+
+
+                            })();
+                        </script>
+
+                        <!-- Generated by ai2html v0.115.1 - 2022-08-16 15:53 -->
+                        <!-- ai file: non-HBCU.ai -->
+                        <style media="screen,print">
+                            #g-non-HBCU-box,
+                            #g-non-HBCU-box .g-artboard {
+                                margin: 0 auto;
+                            }
+
+                            #g-non-HBCU-box p {
+                                margin: 0;
+                            }
+
+                            #g-non-HBCU-box .g-aiAbs {
+                                position: absolute;
+                            }
+
+                            #g-non-HBCU-box .g-aiImg {
+                                position: absolute;
+                                top: 0;
+                                display: block;
+                                width: 100% !important;
+                            }
+
+                            #g-non-HBCU-box .g-aiSymbol {
+                                position: absolute;
+                                box-sizing: border-box;
+                            }
+
+                            #g-non-HBCU-box .g-aiPointText p {
+                                white-space: nowrap;
+                            }
+
+                            #g-non-HBCU-desktop {
+                                position: relative;
+                                overflow: hidden;
+                            }
+
+                            #g-non-HBCU-desktop p {
+                                font-family: Helvetica Neue;
+                                font-weight: 700;
+                                line-height: 18px;
+                                height: auto;
+                                opacity: 1;
+                                letter-spacing: 0em;
+                                font-size: 15px;
+                                text-align: left;
+                                color: rgb(0, 0, 0);
+                                text-transform: none;
+                                padding-bottom: 0;
+                                padding-top: 0;
+                                mix-blend-mode: normal;
+                                font-style: normal;
+                                position: static;
+                            }
+
+                            #g-non-HBCU-desktop .g-pstyle0 {
+                                height: 18px;
+                            }
+
+                            #g-non-HBCU-desktop .g-pstyle1 {
+                                line-height: 16px;
+                                height: 16px;
+                                font-size: 13px;
+                            }
+
+                            #g-non-HBCU-desktop .g-pstyle2 {
+                                font-weight: 400;
+                                line-height: 16px;
+                                height: 16px;
+                                font-size: 13px;
+                            }
+
+                            #g-non-HBCU-desktop .g-pstyle3 {
+                                font-weight: 400;
+                                line-height: 13px;
+                                height: 13px;
+                                font-size: 11px;
+                                text-align: center;
+                            }
+
+                            #g-non-HBCU-desktop .g-pstyle4 {
+                                line-height: 12px;
+                                height: 12px;
+                                font-size: 10px;
+                            }
+
+                            #g-non-HBCU-mobile {
+                                position: relative;
+                                overflow: hidden;
+                            }
+
+                            #g-non-HBCU-mobile p {
+                                font-family: Helvetica Neue;
+                                font-weight: 700;
+                                line-height: 14px;
+                                height: auto;
+                                opacity: 1;
+                                letter-spacing: 0em;
+                                font-size: 12px;
+                                text-align: left;
+                                color: rgb(0, 0, 0);
+                                text-transform: none;
+                                padding-bottom: 0;
+                                padding-top: 0;
+                                mix-blend-mode: normal;
+                                font-style: normal;
+                                position: static;
+                            }
+
+                            #g-non-HBCU-mobile .g-pstyle0 {
+                                height: 14px;
+                            }
+
+                            #g-non-HBCU-mobile .g-pstyle1 {
+                                font-weight: 400;
+                                height: 14px;
+                            }
+
+                            #g-non-HBCU-mobile .g-pstyle2 {
+                                font-weight: 400;
+                                line-height: 13px;
+                                height: 13px;
+                                font-size: 11px;
+                                text-align: center;
+                            }
+
+                            #g-non-HBCU-mobile .g-pstyle3 {
+                                font-weight: 400;
+                                line-height: 11px;
+                                height: 11px;
+                                font-size: 9px;
+                            }
+                        </style>
+
+                        <div id="g-non-HBCU-box" class="ai2html">
+
+                            <!-- Artboard: desktop -->
+                            <div id="g-non-HBCU-desktop" class="g-artboard" style="min-width: 821px;"
+                                data-aspect-ratio="1.721" data-min-width="821">
+                                <div style="padding: 0 0 58.0999% 0;"></div>
+                                <img id="g-non-HBCU-desktop-img" class="g-non-HBCU-desktop-img g-aiImg" alt=""
+                                    src="non-HBCU-desktop.png" />
+                                <!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                                <svg class="g-non-HBCU-desktop-interactions-img g-aiImg" version="1.2"
+                                    baseProfile="tiny" id="g-non-HBCU-desktop-interactions-img"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px" y="0px" viewBox="0 0 821 477" overflow="visible" xml:space="preserve">
+                                    <g>
+                                        <g id="recent" data-name="recent">
+                                            <path id="Path-8" data-name="Path-8" fill="#FF1515" d="M670.444,199.457h19.476v216.228
+			h-19.476V199.457z" />
+                                            <path id="Path-7" data-name="Path-7" fill="#FF1515" d="M692.084,194.786h19.476v220.899
+			h-19.476V194.786z" />
+                                            <path id="Path-6" data-name="Path-6" fill="#FF1515" d="M713.724,255.347h19.476v160.338
+			h-19.476V255.347z" />
+                                            <path id="Path-5" data-name="Path-5" fill="#FF1515" d="M735.363,323.327h19.476v92.358h-19.476
+			V323.327z" />
+                                            <path id="Path-4" data-name="Path-4" fill="#FF1515" d="M496.822,762.922h14.197v285.822
+			h-14.197V762.922z" />
+                                            <path id="Path-3" data-name="Path-3" fill="#FF1515" d="M512.596,756.748h14.197v291.996
+			h-14.197V756.748z" />
+                                            <path id="Path-2" data-name="Path-2" fill="#FF1515" d="M528.37,836.8h14.197v211.943H528.37
+			V836.8z" />
+                                            <path id="Path-1" data-name="Path-1" fill="#FF1515" d="M544.144,926.66h14.197v122.083h-14.197
+			V926.66z" />
+                                        </g>
+                                    </g>
+                                    <style>
+                                        #g-non-HBCU-desktop-interactions-img rect,
+                                        #g-non-HBCU-desktop-interactions-img circle,
+                                        #g-non-HBCU-desktop-interactions-img path,
+                                        #g-non-HBCU-desktop-interactions-img line,
+                                        #g-non-HBCU-desktop-interactions-img polyline,
+                                        #g-non-HBCU-desktop-interactions-img polygon {
+                                            vector-effect: non-scaling-stroke;
+                                        }
+                                    </style>
+                                </svg>
+
+                                <div id="g-ai0-1" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:8.9172%;margin-top:-20.5px;left:5.6471%;width:745px;">
+                                    <p class="g-pstyle0">At least 99 percent, worth $26bn, of National Institute of
+                                        Mental Health
+                                        funded-projects started in the </p>
+                                    <p class="g-pstyle0">last 30 years went to non-HBCUs. </p>
+                                </div>
+                                <div id="g-ai0-2" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:19.3262%;margin-top:-10.2px;left:4.5538%;width:63px;">
+                                    <p class="g-pstyle1">$1.6bn</p>
+                                </div>
+                                <div id="g-ai0-3" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:27.9216%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">1.4</p>
+                                </div>
+                                <div id="g-ai0-4" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:36.3073%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">1.2</p>
+                                </div>
+                                <div id="g-ai0-5" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:44.9027%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">1.0</p>
+                                </div>
+                                <div id="g-ai0-6" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:53.4982%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">0.8</p>
+                                </div>
+                                <div id="g-ai0-7" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:61.8839%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">0.6</p>
+                                </div>
+                                <div id="g-ai0-8" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:70.4793%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">0.4</p>
+                                </div>
+                                <div id="g-ai0-9" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:78.865%;margin-top:-10.2px;left:6.7527%;width:40px;">
+                                    <p class="g-pstyle2">0.2</p>
+                                </div>
+                                <div id="g-ai0-10" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:87.4604%;margin-top:-10.2px;left:7.8518%;width:29px;">
+                                    <p class="g-pstyle2">0</p>
+                                </div>
+                                <div id="g-ai0-11" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.2449%;margin-top:-8.2px;left:64.5717%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2011</p>
+                                </div>
+                                <div id="g-ai0-12" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:11.8313%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1991</p>
+                                </div>
+                                <div id="g-ai0-13" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:22.3745%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1995</p>
+                                </div>
+                                <div id="g-ai0-14" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:27.6461%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1997</p>
+                                </div>
+                                <div id="g-ai0-15" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:35.5535%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2000</p>
+                                </div>
+                                <div id="g-ai0-16" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:40.8251%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2002</p>
+                                </div>
+                                <div id="g-ai0-17" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:48.7326%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2005</p>
+                                </div>
+                                <div id="g-ai0-18" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:51.3683%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2006</p>
+                                </div>
+                                <div id="g-ai0-19" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:54.004%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2007</p>
+                                </div>
+                                <div id="g-ai0-20" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:59.2757%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2009</p>
+                                </div>
+                                <div id="g-ai0-21" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:61.9116%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2010</p>
+                                </div>
+                                <div id="g-ai0-22" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:67.1831%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2012</p>
+                                </div>
+                                <div id="g-ai0-23" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:69.8189%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2013</p>
+                                </div>
+                                <div id="g-ai0-24" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:72.4548%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2014</p>
+                                </div>
+                                <div id="g-ai0-25" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:75.0905%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2015</p>
+                                </div>
+                                <div id="g-ai0-26" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:77.7263%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2016</p>
+                                </div>
+                                <div id="g-ai0-27" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:80.3622%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2017</p>
+                                </div>
+                                <div id="g-ai0-28" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:82.9978%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2018</p>
+                                </div>
+                                <div id="g-ai0-29" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:85.6338%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2019</p>
+                                </div>
+                                <div id="g-ai0-30" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:88.2695%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2020</p>
+                                </div>
+                                <div id="g-ai0-31" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:90.9052%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2021</p>
+                                </div>
+                                <div id="g-ai0-32" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:17.1028%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1993</p>
+                                </div>
+                                <div id="g-ai0-33" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:19.7387%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1994</p>
+                                </div>
+                                <div id="g-ai0-34" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:25.0103%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1996</p>
+                                </div>
+                                <div id="g-ai0-35" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:30.2819%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1998</p>
+                                </div>
+                                <div id="g-ai0-36" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:32.9178%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1999</p>
+                                </div>
+                                <div id="g-ai0-37" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:38.1893%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2001</p>
+                                </div>
+                                <div id="g-ai0-38" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:43.461%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2003</p>
+                                </div>
+                                <div id="g-ai0-39" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:46.0968%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2004</p>
+                                </div>
+                                <div id="g-ai0-40" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:56.6399%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">2008</p>
+                                </div>
+                                <div id="g-ai0-41" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.0692271218587%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.0692271218587%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.0692271218587%;top:91.4546%;margin-top:-8.2px;left:14.467%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle3">1992</p>
+                                </div>
+                                <div id="g-ai0-42" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:97%;margin-top:-7.7px;left:73.4909%;width:150px;">
+                                    <p class="g-pstyle4">Chart by: Richard A. Abbey</p>
+                                </div>
+                                <div id="g-ai0-43" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:97.6289%;margin-top:-7.7px;left:8.8268%;width:183px;">
+                                    <p class="g-pstyle4">Data: National Institutes of Health</p>
+                                </div>
+                            </div>
+
+                            <!-- Artboard: mobile -->
+                            <div id="g-non-HBCU-mobile" class="g-artboard" style="max-width: 820px;max-height: 773px"
+                                data-aspect-ratio="1.061" data-min-width="0" data-max-width="820">
+                                <div style="padding: 0 0 94.2727% 0;"></div>
+                                <img id="g-non-HBCU-mobile-img" class="g-non-HBCU-mobile-img g-aiImg" alt=""
+                                    src="non-HBCU-mobile.png" />
+                                <!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                                <svg class="g-non-HBCU-mobile-interactions-img g-aiImg" version="1.2" baseProfile="tiny"
+                                    id="g-non-HBCU-mobile-interactions-img" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 608.849 574.121" overflow="visible" xml:space="preserve">
+                                    <g>
+                                        <g id="recent-2" data-name="recent">
+                                            <path id="Path-8-2" data-name="Path-8" fill="#FF1515" d="M667.907-332.953h19.476v216.228
+			h-19.476V-332.953z" />
+                                            <path id="Path-7-2" data-name="Path-7" fill="#FF1515" d="M689.547-337.624h19.476v220.899
+			h-19.476V-337.624z" />
+                                            <path id="Path-6-2" data-name="Path-6" fill="#FF1515" d="M711.187-277.064h19.476v160.338
+			h-19.476V-277.064z" />
+                                            <path id="Path-5-2" data-name="Path-5" fill="#FF1515" d="M732.827-209.083h19.476v92.358h-19.476
+			V-209.083z" />
+                                            <path id="Path-4-2" data-name="Path-4" fill="#FF1515" d="M494.285,230.512h14.197v285.822
+			h-14.197V230.512z" />
+                                            <path id="Path-3-2" data-name="Path-3" fill="#FF1515" d="M510.06,224.338h14.197v291.996H510.06
+			V224.338z" />
+                                            <path id="Path-2-2" data-name="Path-2" fill="#FF1515" d="M525.834,304.39h14.197v211.943h-14.197
+			V304.39z" />
+                                            <path id="Path-1-2" data-name="Path-1" fill="#FF1515" d="M541.608,394.25h14.197v122.083h-14.197
+			V394.25z" />
+                                        </g>
+                                    </g>
+                                    <style>
+                                        #g-non-HBCU-mobile-interactions-img rect,
+                                        #g-non-HBCU-mobile-interactions-img circle,
+                                        #g-non-HBCU-mobile-interactions-img path,
+                                        #g-non-HBCU-mobile-interactions-img line,
+                                        #g-non-HBCU-mobile-interactions-img polyline,
+                                        #g-non-HBCU-mobile-interactions-img polygon {
+                                            vector-effect: non-scaling-stroke;
+                                        }
+                                    </style>
+                                </svg>
+
+                                <div id="g-ai1-1" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:6.8327%;margin-top:-16.2px;left:2.5926%;width:601px;">
+                                    <p class="g-pstyle0">At least 99 percent, worth $26bn, of National Institute of
+                                        Mental Health
+                                        funded-projects started in the </p>
+                                    <p class="g-pstyle0">last 30 years went to non-HBCUs. </p>
+                                </div>
+                                <div id="g-ai1-2" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:16.552%;margin-top:-9px;left:3.018%;width:60px;">
+                                    <p class="g-pstyle0">$1.6bn</p>
+                                </div>
+                                <div id="g-ai1-3" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:24.9126%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">1.4</p>
+                                </div>
+                                <div id="g-ai1-4" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:34.3183%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">1.2</p>
+                                </div>
+                                <div id="g-ai1-5" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:43.7239%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">1.0</p>
+                                </div>
+                                <div id="g-ai1-6" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:53.1296%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">0.8</p>
+                                </div>
+                                <div id="g-ai1-7" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:62.5353%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">0.6</p>
+                                </div>
+                                <div id="g-ai1-8" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:71.941%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">0.4</p>
+                                </div>
+                                <div id="g-ai1-9" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:81.3467%;margin-top:-9px;left:6.5211%;width:39px;">
+                                    <p class="g-pstyle1">0.2</p>
+                                </div>
+                                <div id="g-ai1-10" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:90.7524%;margin-top:-9px;left:8.1644%;width:29px;">
+                                    <p class="g-pstyle1">0</p>
+                                </div>
+                                <div id="g-ai1-11" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.7215%;margin-top:-8.1px;left:64.1434%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2011</p>
+                                </div>
+                                <div id="g-ai1-12" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:40.8291%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2002</p>
+                                </div>
+                                <div id="g-ai1-13" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:56.356%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2008</p>
+                                </div>
+                                <div id="g-ai1-14" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1918007014149%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1918007014149%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1918007014149%;top:93.8957%;margin-top:-8.1px;left:61.5316%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2010</p>
+                                </div>
+                                <div id="g-ai1-15" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:12.3641%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1991</p>
+                                </div>
+                                <div id="g-ai1-16" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:22.7149%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1995</p>
+                                </div>
+                                <div id="g-ai1-17" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.192549588776%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.192549588776%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.192549588776%;top:93.8956%;margin-top:-8.1px;left:27.8905%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1997</p>
+                                </div>
+                                <div id="g-ai1-18" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:30.4783%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1998</p>
+                                </div>
+                                <div id="g-ai1-19" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:38.2416%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2001</p>
+                                </div>
+                                <div id="g-ai1-20" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:46.005%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2004</p>
+                                </div>
+                                <div id="g-ai1-21" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.192549588776%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.192549588776%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.192549588776%;top:93.8956%;margin-top:-8.1px;left:48.5928%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2005</p>
+                                </div>
+                                <div id="g-ai1-22" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1918007014149%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1918007014149%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1918007014149%;top:93.8957%;margin-top:-8.1px;left:51.1805%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2006</p>
+                                </div>
+                                <div id="g-ai1-23" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:53.7685%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2007</p>
+                                </div>
+                                <div id="g-ai1-24" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:66.7072%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2012</p>
+                                </div>
+                                <div id="g-ai1-25" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:69.295%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2013</p>
+                                </div>
+                                <div id="g-ai1-26" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1918007014149%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1918007014149%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1918007014149%;top:93.8957%;margin-top:-8.1px;left:71.883%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2014</p>
+                                </div>
+                                <div id="g-ai1-27" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:77.0586%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2016</p>
+                                </div>
+                                <div id="g-ai1-28" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:79.6464%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2017</p>
+                                </div>
+                                <div id="g-ai1-29" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:82.2339%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2018</p>
+                                </div>
+                                <div id="g-ai1-30" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:89.9973%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2021</p>
+                                </div>
+                                <div id="g-ai1-31" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:17.5396%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1993</p>
+                                </div>
+                                <div id="g-ai1-32" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:33.0661%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1999</p>
+                                </div>
+                                <div id="g-ai1-33" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:35.6541%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2000</p>
+                                </div>
+                                <div id="g-ai1-34" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:58.9441%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2009</p>
+                                </div>
+                                <div id="g-ai1-35" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:74.4706%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2015</p>
+                                </div>
+                                <div id="g-ai1-36" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.192549588776%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.192549588776%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.192549588776%;top:93.8956%;margin-top:-8.1px;left:84.822%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2019</p>
+                                </div>
+                                <div id="g-ai1-37" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.192549588776%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.192549588776%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.192549588776%;top:93.8956%;margin-top:-8.1px;left:87.4098%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2020</p>
+                                </div>
+                                <div id="g-ai1-38" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:14.9518%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1992</p>
+                                </div>
+                                <div id="g-ai1-39" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:20.1274%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1994</p>
+                                </div>
+                                <div id="g-ai1-40" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1921751224527%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1921751224527%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1921751224527%;top:93.8957%;margin-top:-8.1px;left:25.303%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">1996</p>
+                                </div>
+                                <div id="g-ai1-41" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="transform: matrix(0.5,-0.866,0.866,0.5,0,0);transform-origin: 50% 56.1918007014149%;-webkit-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-webkit-transform-origin: 50% 56.1918007014149%;-ms-transform: matrix(0.5,-0.866,0.866,0.5,0,0);-ms-transform-origin: 50% 56.1918007014149%;top:93.8957%;margin-top:-8.1px;left:43.4175%;margin-left:-23px;width:46px;">
+                                    <p class="g-pstyle2">2003</p>
+                                </div>
+                                <div id="g-ai1-42" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:98.2408%;margin-top:-7px;left:76.8899%;width:132px;">
+                                    <p class="g-pstyle3">Chart by: Richard A. Abbey</p>
+                                </div>
+                                <div id="g-ai1-43" class="g-Layer_1 g-aiAbs g-aiPointText"
+                                    style="top:98.2408%;margin-top:-7px;left:2.0475%;width:157px;">
+                                    <p class="g-pstyle3">Data: National Institutes of Health</p>
+                                </div>
+                            </div>
+
+                            <!-- Custom HTML -->
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js"></script>
+                            <style>
+                                .hidden {
+                                    visibility: hidden;
+                                }
+                            </style>
+
+                        </div>
+
+                        <!-- End ai2html - 2022-08-16 15:53 -->
+
+                    </div>
+                </div>
+                <div class="scrolly-overlay">
+                    <div class="step" id="step-zero">
+                        <p>The US Department of Education has identified 107 colleges in the United States as
+                            Historically Black Colleges and Universities (HBCUs).
+                            Of those 107, three are currently closed. </p>
+                    </div>
+                    <div class="step" id="step-one">
+                        <p>Between 1991 and 2021, about 20 of these got funding for research into mental disorders.</p>
+                    </div>
+                    <div class="step" id="step-two">
+                        <p>Over all, despite the reported crisis in mental health care, research funding in the last
+                            four years is somewhat <span style="color:red">declining.</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <script>
+                // scrolling-telling script//
+                d3.selectAll("[data-name=recent]").classed('hidden', true)
+                d3.select("#step-one").on('stepin', function (e) {
+                    d3.selectAll("[data-name=recent]").classed('hidden', true)
+
+                })
+                d3.select("#step-two").on('stepin', function (e) {
+                    d3.selectAll("[data-name=recent]").classed('hidden', false).style('stroke', 'black')
+
+
+                })
+
+            </script>
+
+            <script>
+                const scroller = scrollama();
+
+                scroller
+                    .setup({
+                        step: "#scrolly .scrolly-overlay .step",
+                        offset: 0.75,
+                        debug: false
+                    })
+                    .onStepEnter(function ({ element, index, direction }) {
+                        const event = new CustomEvent('stepin', { detail: { direction: direction } })
+                        element.dispatchEvent(event);
+                    })
+                    .onStepExit(function ({ element, index, direction }) {
+                        const event = new CustomEvent('stepout', { detail: { direction: direction } })
+                        element.dispatchEvent(event);
+                    });
+
+                window.addEventListener("resize", scroller.resize);
+            </script>
+
+
+            <p>That said, Barnes, teaches her students to always listen to their Black patients more, where
+                possible,
+                rather
+                than rely solely on available literature to diagnose mental disorders.
+                “I'm always telling my students that, when you have a 12-year-old Black male in front of
+                you, and you
+                are 30
+                years and white, don't try to reference what they're saying because you can't. You have no
+                references to
+                what he
+                is saying to you. You can't even relate, so you pull out your evidence-based tools for your
+                white
+                population,
+                which doesn't work for them.”
+            </p>
+            <p>It is not strange to see Black kids expressing depression through anger, which Barnes says is
+                not in sync
+                with
+                the 'dominant culture.' “Our evidence is different because there are certain risk factors
+                and
+                characteristics
+                that we have that don’t match the dominant culture, and it’s not picked up,” she said.
+
+            </p>
+            <div class="parallax"></div>
+            <em>Image: Rutgers University</em>
+            <p>Research conducted at Rutgers University, New Jersey, five years ago demonstrates how
+                symptoms of mental
+                health
+                illness among Blacks could be misdiagnosed. In 2018, researchers examining medical records
+                of about
+                1,700
+                patients, of all ages, concluded African Americans with severe depression are more likely to
+                be
+                misdiagnosed
+                with schizophrenia established than any other racial group.
+            </p>
+            <p>Even before Barnes, there have been concerns clinicians are prone to misdiagnosing certain
+                mental health
+                illnesses among Blacks mainly due to somewhat cultural differences in symptoms. That
+                perception fired
+                the
+                curiosity of the Rutgers investigators. Their quest to find answers led them to probe
+                whether clinicians
+                accurately diagnosed about 600 Blacks and close to 1,100 with schizophrenia, a mental
+                disorder
+                characterized
+                by
+                hallucinations and delusions.
+            </p>
+            <p>The findings were resounding. The Rutgers researchers found ample evidence that clinicians
+                failed to
+                account
+                for
+                mood symptoms when diagnosing schizophrenia among Blacks, adding that ‘racial bias,’ whether
+                conscious
+                or
+                subconscious, played a role in diagnosing schizophrenia in African Americans.
+            </p>
+            <p>“Why this phenomenon occurs remains unknown,” the authors said. “But it may represent either
+                conscious or
+                unconscious bias toward the meaning of psychiatric symptoms of African Americans or the
+                effects on the
+                clinical
+                presentation of being a patient from a racial-ethnic minority group (for example, mistrust
+                leading to
+                less
+                than
+                full disclosure of presenting problems).”
+            </p>
+            <p>Nevertheless, Dr. Lashonda Green, an African American psychologist, insists there’s a seeming
+                lethargy
+                among
+                African Americans regarding mental health.
+                “It's just that many Black people don't like to read [about mental health illness] and don't
+                like to go
+                to
+                therapy,” she said. “A lot of black people don't like to volunteer to participate in
+                psychological
+                research
+                or
+                any other research.”
+            </p>
+            <p>In her opinion and direct contrast to Barnes, the survey instruments used in screening for
+                mental health
+                illnesses are pretty sound and scientific, backed by empirical research.
+                “There's no perfect instrument,” Dr. Green said. “I think people are looking for specific
+                instruments
+                for
+                all
+                types of races. Everyone's looking for something specialized and unique. But what is
+                available is
+                heavily
+                empirically supported, and it does apply to Black people, but they are not presenting
+                themselves.”
+            </p>
+            <p>More trust issues</p>
+
+            <p>Two years ago, Helena Adu, 58, an African American Bronx resident, was unsettled by her
+                21-year-old
+                daughter's
+                fixation with issues surrounding failed relationships.
+            </p>
+            <p>“Why do men cheat,” her daughter would often ask her, begging for answers. Adu’s sister was
+                going through
+                a
+                divorce, making her think her daughter’s sudden curiosity about romantic relationships could
+                be a
+                result.
+                But her daughter would not stop probing for answers on why such relationships break down.
+            </p>
+
+            <p>Adu, a registered
+                nurse in the Bronx, knew something was amiss when her daughter complained of being ‘sick’
+                and wanted to
+                see
+                a
+                pastor rather than a physician.
+                When she checked her daughter’s vital signs, everything seemed fine, but she still wanted to
+                go to the
+                hospital
+                for an exhaustive assessment.
+            </p>
+
+            <p>In the routine assessment, her daughter insisted on being married with four kids. The issue
+                is that Adu
+                had
+                lived
+                with her daughter for the last ten years and was not aware of any marriage not to talk about
+                having
+                kids.
+                And that was when Adu’s suspicions were confirmed. Her daughter was referred to the
+                psychiatric unit of
+                the
+                BronxCare Hospital for further assessment.
+            </p>
+            <p>Later, Adu made another shocking discovery. Before her daughter's admission, she had texted
+                several
+                friends
+                and
+                relatives, accusing her immediate family of wanting to kill her.
+                “Indeed, I didn’t know about those messages,” said Adu. “Those who received them were
+                alarmed, but as a
+                matter
+                of fact, I did not want to see those messages. I didn’t want to be stressed by the content
+                of these
+                messages.”
+            </p>
+
+            <p>Adu’s daughter had a long-distance romantic relationship with a boy from Ghana. The two had
+                not seen each
+                other
+                in nearly ten years when her daughter left Ghana to reunite with her.
+                The relationship blossomed until her daughter started receiving reports of her boyfriend’s
+                infidelity.
+                “She
+                didn’t quite believe. But the evidence from her cousins would not stop coming,” said Adu.
+                “It seems like
+                she
+                snapped when she could not bear it any longer.”
+            </p>
+            <p>Her daughter was admitted and later diagnosed with bipolar disorder and put on medication,
+                although she
+                would
+                later disagree with the diagnosis. A few weeks into her medication after her discharge,
+                Adu’s daughter
+                was
+                also
+                diagnosed with Schatzki’s ring, a medical condition that narrows the esophagus and makes it
+                difficult to
+                swallow.
+                It took a minor surgical procedure, balloon dilation, to correct the condition, which Adu
+                strongly
+                believes
+                was
+                a side effect of her daughter’s medication, Abilify, although that was never confirmed.
+                Subsequently,
+                her
+                doctors recommended a lower dosage and eventually took her off the drug.
+            </p>
+            <p>Despite improvement in her daughter’s condition, there’s a part of Adu that still holds the
+                view that her
+                daughter was misdiagnosed. Though she concedes she’s not in a position to clinically
+                diagnosed her
+                daughter,
+                she
+                firmly believes the slew of questions asked her before making their decision were “all over
+                the place”
+                and
+                could
+                not have provided enough justification for a bipolar disorder diagnosis.
+                “Sometimes, I believe they just needed to diagnose my daughter so they can just put her on a
+                medication,”
+                said
+                Adu. “Perhaps, she was just depressed.”
+            </p>
+            <p>While Adu may not have any evidence about the misdiagnosis, Barnes believes they are not out
+                of place.
+                She
+                also
+                accuses doctors treating mental health illnesses of being quick to prescribe medications,
+                which may not
+                always
+                be the solution.
+                “The first thing they pull out is a medication that doesn’t always work,” she said. “Many
+                people take
+                their
+                own
+                lives and don't have a mental disorder. They took their own life because life is not worth
+                living to
+                them,”
+                Barnes says.
+                Sometimes people suffering from certain mental illnesses need someone to talk to and confide
+                in, “and
+                that’s
+                all
+                it takes.”
+            </p>
+            <p>Looking forward
+            </p>
+            <p>The church plays a vital role in the culture of African Americans, with nearly 8 in 10 people
+                identifying
+                as
+                Christians.
+            </p>
+            <p>About 20 years ago, a parishioner at a local church, Healing Center in Tennessee, who had
+                previously
+                sought
+                counseling for an unstated mental illness, died from a self-inflicted gunshot wound at the
+                church.
+                While the act left parishioners traumatized, William Young, an African American priest, then
+                a chaplain
+                at
+                another local church, said the incident exposed why the church must drive mental health
+                awareness and
+                suicide
+                prevention in Black communities.
+            </p>
+            <div class="parallax2"></div>
+            <em>Bishop Young and his wife, Dianne. Image: Daily Memphian</em>
+
+            <p>Bishop Young’s persistence led to the inaugural National Suicide and the Black Church
+                Conference -- an
+                event
+                that
+                addresses the root causes behind hopelessness that can lead to suicide, particularly in the
+                African
+                American
+                community -- hosted by the Healing Center and is held every other year.
+                “There was a myth that Black people didn’t commit suicide, only white people,” Bishop Young
+                said.
+                “The myth also says we're stronger because we had come through slavery, but the reality was
+                that many
+                people
+                had
+                died from suicide because suicide is the result of extreme depression.”
+            </p>
+
+            <p>For Dr. Lashonda Green, who currently consults as a clinical psychologist in New Jersey,
+                faith-based
+                groups
+                could
+                be instrumental in promoting mental health awareness and suicide prevention among African
+                Americans. She
+                said
+                that training critical people in the church on counseling is a good starting point.
+                “I don't think they've done a good job training their people. When you're feeling down and
+                discouraged,
+                it's
+                one
+                thing to have to speak to a deacon or a church elder,” she said.
+                “But when dealing with mass shootings, divorce, and gender issues, you need to seek help
+                outside the
+                church
+                and
+                speak with somebody who is more objective and professionally trained. I don't think the
+                church has done
+                enough
+                to encourage its people to do that.”
+            </p>
+
+            <p>When Jasmine didn’t get her father’s approval to seek professional therapy, she turned to Rex
+                Agyemang,
+                32,
+                her
+                youth leader in the church. Although not a clinical psychologist or a trained counselor, Rex
+                had some
+                psychology
+                knowledge from his undergraduate courses.
+                As a leader in the youth department of Jasmine’s church, his responsibilities include
+                providing a form
+                of
+                spiritual counseling in line with Christian principles. Despite performing in this role for
+                more than
+                five
+                years, he believes people like him who interface with the youth need training in guidance
+                counseling,
+                among
+                others.
+                “One of the reasons I can assist people like Jasmine is because of traits that I have, my
+                knack for
+                wanting
+                to
+                help people,” said Rex. “But as far I’m concerned, sharpening this skillset through guidance
+                counseling
+                training
+                would be useful in helping more people.”
+            </p>
+            <p>For faith-based institutions like churches to help resolve the Black youth mental crisis the
+                country
+                faces,
+                they
+                must learn to communicate in the language that the youth can relate to – not just a
+                top-bottom approach,
+                said
+                Olusola Adegbite, a Ph.D. candidate at the Union Theological Seminary in New York City.
+            </p>
+            <p>degbite, a youth leader at a local church she asked not to be named because she is not an
+                authorized
+                spokesperson, argued that churches that do not factor in the needs of the youth in their
+                activities are
+                bound to
+                achieve less meaningful results.
+                “We think we know what we should be doing for the people, and we just like expect them to
+                show up and
+                participate because we are doing a lot of work making happen for them,” Adegbite said.
+                “It's supposed to be the other way around. We need to listen to the people first and
+                determine their
+                greatest
+                needs. We need to find out some ways that they are already handling whatever issues they
+                have and find
+                ways
+                to
+                enhance it.”
+            </p>
+            <p>Adegbite also added that the manner of education needed for church members to openly
+                acknowledge the
+                realness
+                of
+                issues surrounding mental and suicide must be openly led from the pulpit.
+                “Talking about it [mental health and related issues] from the pulpit is an important aspect
+                of
+                validating
+                people's experiences because other things that we don't talk about in church, people don't
+                feel
+                comfortable
+                to
+                talk about them either,” said Adegbite.
+            </p>
+            <p>Lydia Torgbor, who has been with the Presbyterian Church in Harlem since it was established
+                in the
+                mid-80s,
+                argues that many faith-based institutions can do to demystify mental health and suicide
+                prevention.
+            </p>
+
+            <p>Torgbor, who racked three decades of experience teaching kids in public schools, was in
+                charge of the
+                church’s
+                youth wing throughout her career, providing guidance counseling to hundreds of kids. She
+                provided a
+                listening
+                ear and acted as a confidante for kids through her teaching.
+                “Our church, like any other, provides that spiritual guidance to our members. We have not
+                necessarily
+                been
+                deliberate about mental health awareness and suicide prevention,” said Torgbor. “But I
+                concede the
+                church
+                can do
+                a much better job in creating awareness and letting its members know that it is alright to
+                seek care
+                elsewhere
+                when for instance, you are severely depressed. ”One of the church kids Torgbor raised is
+                Rex, Jasmine’s
+                youth
+                leader. </p>
+
+            <p>The retired teacher states that given the conversation about the growing mental crisis
+                surrounding Black
+                youth, she would discuss the issue with the church’s leadership, discussing what mitigating
+                role the
+                church
+                can
+                play for its youth.
+                “One of the avenues we would explore is training these youth leaders to recognize some of
+                these common
+                mental
+                issues that these kids face,” Torgbor said. “These leaders spend a lot of time with these
+                kids, and
+                giving
+                them
+                that training would help immensely to help identify distressed kids.”
+            </p>
+            <p>Stigma in the home
+            </p>
+            <p>Jasmine’s parents are instrumental in a community where mental health awareness and suicide
+                prevention
+                are
+                not
+                openly discussed as experts say they should be. Aside from the stigma in the church, there
+                could be
+                other
+                reasons for not giving in to their daughter’s request for therapy.
+            </p>
+            <p>There’s a misconception among African American parents that something goes wrong with their
+                kids reflects
+                poorly
+                on them, said Dr. Barnes. “They (parents) hide and don't want to talk about it,” she said.
+                “They want to think that if they avoid the situation, it will go away; instead, if you avoid
+                the
+                problem, it
+                worsens. While parents and families mean well, they can often hinder the tender issues of
+                mental health
+                and
+                suicide.”
+            </p>
+            <p>Robert, Jasmine’s father, recounts vividly when her daughter approached him seeking to talk
+                to a
+                therapist.
+                He
+                sees no reason why her daughter should not be able to open up to him or any family member as
+                he had
+                suggested.
+                “As a parent, I felt it was right to know at least what she’s going through. At least
+                knowing that would
+                help me
+                guide her on what to do,” Robert said. “After all, if the situation is beyond me, we can
+                always seek
+                help
+                externally. But I still believe as her father; she should be able to open up to me first.”
+                In Robert’s vague recollection of events, Jasmine’s mother supposedly took her to a
+                therapist. Indeed,
+                Jasmine
+                never saw any therapist apart from seeking guidance from one of the youth leaders in the
+                church, and her
+                dad
+                conceded that he never followed up on the issue again.
+            </p>
+
+            <p>But Kim Kaiser, the Director of Diversity Equity and Inclusion at Families Together in New
+                York State, a
+                non-profit that advocates mental health needs of children, thinks that stigma exists among
+                African
+                American
+                families and churches because people are trained to focus on their strengths and suppress
+                their
+                weaknesses.</p>
+            <p>“Suicide is rising exponentially amongst our Black youth, and we know we have got to work
+                first on the
+                stigma,” Kaiser said. “It's like decolonizing mental health therapy in your head to
+                understand that this
+                is bigger
+                than just a fractured system. It is about getting your child the help that they need.”
+                Breaking the cycle of shame among African Americans requires an extraordinary effort, but
+                Kaiser
+                believes that family, as the basic unit of society, has an integral role to play.
+            </p>
+            <p>For Jasmine, who would soon be heading off to college, her parents' love is undoubted, but
+                she only
+                wished they would understand her emotional needs a little more.
+            </p>
+        </div>
+    </div>
+    <script type='text/javascript' src="map.js"></script>
+</body>
+</html>
