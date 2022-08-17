@@ -1,7 +1,7 @@
 body {
     margin-top: auto;
     margin: 0;
-    background-color: gainsboro;
+    background-color: #FCF7F8 ;
     font-size: 18px;
 }
 
@@ -94,7 +94,6 @@ body {
 
 .story {
   width: auto;
-  padding: 0rem 10rem 0rem 10rem;
   position: relative;
   font-family: 'Joan', serif;
 
